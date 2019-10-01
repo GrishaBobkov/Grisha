@@ -10,8 +10,11 @@ GR_SIMPLE - простые программы
 from graph import *
 from random import *
 
-tt = 0
+# Программа рисующая картинку лошади с окружающим фоном
 
+tt = 0 # переменная отвечающая за время. До 100 яблоки падают, после оного они катятся по земле
+
+#рисует дерево
 def Tree():
 	penColor(150,90,50)
 	penSize(1)
@@ -25,23 +28,26 @@ def Tree():
 	penSize(1)
 	brushColor(255,100,100)
 
+#Отвечает за падение яблок
 def ApplesFall():
 	global tt
 	if tt<100:
-		moveObjectBy(App1, 0, randint(1, 2))
-		moveObjectBy(App2, 0, randint(2, 3))
-		moveObjectBy(App3, 0, randint(2, 3))
-		moveObjectBy(App4, 0, randint(3, 4))
+		moveObjectBy(App1, 0, randint(0, 2)+tt//25-1)
+		moveObjectBy(App2, 0, randint(0, 2)+tt//25)
+		moveObjectBy(App3, 0, randint(0, 2)+tt//25)
+		moveObjectBy(App4, 0, randint(0, 2)+tt//25+1)
 	tt=tt+1
 
+#Отвечает за качение  яблок по земле
 def ApplesJump():
 	global tt
 	if tt>100:
-		moveObjectBy(App1, 2, randint(-2, 3))
-		moveObjectBy(App2, 2, randint(-2, 3))
-		moveObjectBy(App3, 2, randint(-2, 3))
-		moveObjectBy(App4, 2, randint(-2, 3))
+		moveObjectBy(App1, 2, randint(-1, 1)+tt%13-5)
+		moveObjectBy(App2, 2, randint(-1, 1)+tt%15-6)
+		moveObjectBy(App3, 2, randint(-1, 1)+tt%17-7)
+		moveObjectBy(App4, 2, randint(-1, 1)+tt%19-8)
 
+#Фон
 def Background():
 	penColor(0,255,0)
 	penSize(1)
@@ -58,6 +64,7 @@ def Background():
 	brushColor(255,255,0)
 	circle(470, 50, 80)
 
+#Лошадь
 def horse():
 	penColor(250,250,255)
 	penSize(1)
@@ -83,6 +90,7 @@ def horse():
 	brushColor(0,0,0)
 	circle(451, 304, 3)
 
+#Грива рисуется отдельно, чтобы переливалась
 def fur():
 	i=randint(1, 300)
 	penSize(5)
@@ -173,8 +181,6 @@ def fur():
 	B13=line(265, 395, 230, 420)
 	penColor(randint(150, 255), randint(150, 255), randint(150, 255))
 	B14=line(270, 395, 225, 430)
-
-		
 
 
 Background()

@@ -9,6 +9,8 @@ GR_SIMPLE - простые программы
 
 from graph import *
 from random import *
+import random as rm
+import math
 
 # Программа рисующая картинку лошади с окружающим фоном
 
@@ -28,15 +30,48 @@ def Tree():
 	penSize(1)
 	brushColor(255,100,100)
 
+#sets compleat color of your pen
+def color(x):
+    penColor(x)
+    brushColor(x)
+
+#Tree-fractal function
+def tker(x,y,N, N0, alpha,l,q,delta, obj):
+    if N==0:
+        return
+    if N >= N0 - 3:
+        color("brown")
+    else:
+        color("green")
+    penSize(N*1.5)
+    rnd_l = rm.uniform(0.97, 1.04)
+    rnd_a = rm.uniform(0.95 +0.04, 1.05 - 0.04)
+    alpha*=rnd_a
+    rnd_d = rm.uniform(0.95 +0.05, 1.05 - 0.05)
+    delta*=rnd_d
+    obj.append(line(x,y,x+l*math.cos(alpha),y+l*math.sin(alpha)))
+    tker(x+l*math.cos(alpha),y+l*math.sin(alpha),N-1, N0, alpha+delta,q*l*rnd_l,q,delta, obj)
+    tker(x+l*math.cos(alpha),y+l*math.sin(alpha),N-1, N0, alpha-delta,q*l*rnd_l,q,delta, obj)
+    tker(x+l*math.cos(alpha),y+l*math.sin(alpha),N-1, N0, alpha,q*l*rnd_l,q,delta, obj)
+
+
+#Draws a tree
+def FrTree(x, y, l, N, q, obj):
+    for i in obj:
+        deleteObject(i)
+    color("green")
+    tker(x, y ,N, N, -math.pi/2, l ,q,math.pi*0.2, obj)
+
+
 #Отвечает за падение яблок
 def ApplesFall():
-	global tt
-	if tt<100:
-		moveObjectBy(App1, 0, randint(0, 2)+tt//25-1)
-		moveObjectBy(App2, 0, randint(0, 2)+tt//25)
-		moveObjectBy(App3, 0, randint(0, 2)+tt//25)
-		moveObjectBy(App4, 0, randint(0, 2)+tt//25+1)
-	tt=tt+1
+    global tt
+    if tt<100:
+        moveObjectBy(App1, 0, randint(0, 2)+tt//25-1)
+        moveObjectBy(App2, 0, randint(0, 2)+tt//25)
+        moveObjectBy(App3, 0, randint(0, 2)+tt//25)
+        moveObjectBy(App4, 0, randint(0, 2)+tt//25+1)
+    tt=tt+1
 
 #Отвечает за качение  яблок по земле
 def ApplesJump():
@@ -53,7 +88,7 @@ def Background():
 	penSize(1)
 	brushColor(0,255,0)
 	rectangle(0, 300, 500, 600)
-	
+
 	penColor(200,200,255)
 	penSize(1)
 	brushColor(200,200,255)
@@ -151,7 +186,7 @@ def fur():
 		A8=line(440, 296, 381, 301)
 		penColor(randint(150, 255), 150, 150)
 		A9=line(444, 290, 399, 294)
-	
+
 	penSize(5)
 	penColor(randint(150, 255), randint(150, 255), randint(150, 255))
 	B1=line(310, 340, 280, 360)
@@ -182,16 +217,21 @@ def fur():
 	penColor(randint(150, 255), randint(150, 255), randint(150, 255))
 	B14=line(270, 395, 225, 430)
 
+def frtree():
+    ApplesFall()
+    FrTree(60, 420, 100, 8, 0.7, tree)
 
 Background()
 horse()
 fur()
-Tree()
+#Tree()
 App1=circle(75, 335, 15)
 App2=circle(15, 255, 15)
 App3=circle(130, 250, 15)
 App4=circle(70, 130, 15)
+tree = []
 onTimer(fur, 100)
-onTimer(ApplesFall, 10)
+onTimer(frtree, 10)
+#onTimer(ApplesFall, 10)
 onTimer(ApplesJump, 30)
 run()

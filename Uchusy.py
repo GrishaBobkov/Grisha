@@ -218,20 +218,21 @@ def fur():
 	B14=line(270, 395, 225, 430)
 
 def frtree():
-    ApplesFall()
+
     FrTree(60, 420, 100, 8, 0.7, tree)
 
 Background()
 horse()
 fur()
 #Tree()
+color('red')
 App1=circle(75, 335, 15)
 App2=circle(15, 255, 15)
 App3=circle(130, 250, 15)
 App4=circle(70, 130, 15)
 tree = []
 onTimer(fur, 100)
-onTimer(frtree, 10)
-#onTimer(ApplesFall, 10)
+onTimer(ApplesFall, 10)
 onTimer(ApplesJump, 30)
+onTimer(frtree, 50)
 run()
